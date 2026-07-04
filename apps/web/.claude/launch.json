@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "koya-web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--dir", "/Users/sara.tapusoa/Documents/dev/koya/apps/web", "run", "dev"],
+      "port": 5173
+    }
+  ]
+}
