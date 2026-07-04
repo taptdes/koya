@@ -4,7 +4,7 @@ import Button from './Button'
 import ProductImage from './ProductImage'
 
 export default function CartDrawer() {
-  const { lines, isOpen, closeCart, subtotal, setQuantity, removeFromCart } = useCart()
+  const { lines, isOpen, closeCart, subtotal, changeQuantity, removeFromCart } = useCart()
 
   return (
     <>
@@ -77,7 +77,7 @@ export default function CartDrawer() {
                           <button
                             type="button"
                             aria-label="Decrease quantity"
-                            onClick={() => setQuantity(line.product.id, line.quantity - 1)}
+                            onClick={() => changeQuantity(line.product.id, -1)}
                             className="rounded-full p-1 text-ink-600 hover:bg-ink-900/5 cursor-pointer"
                           >
                             <Minus className="h-3 w-3" />
@@ -88,7 +88,7 @@ export default function CartDrawer() {
                           <button
                             type="button"
                             aria-label="Increase quantity"
-                            onClick={() => setQuantity(line.product.id, line.quantity + 1)}
+                            onClick={() => changeQuantity(line.product.id, 1)}
                             className="rounded-full p-1 text-ink-600 hover:bg-ink-900/5 cursor-pointer"
                           >
                             <Plus className="h-3 w-3" />

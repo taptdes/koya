@@ -15,7 +15,6 @@ interface CartContextValue {
   closeCart: () => void
   addToCart: (product: Product, quantity?: number) => void
   removeFromCart: (productId: string) => void
-  setQuantity: (productId: string, quantity: number) => void
   changeQuantity: (productId: string, delta: number) => void
 }
 
@@ -44,29 +43,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setLines((prev) => prev.filter((line) => line.product.id !== productId))
   }
 
-  const setQuantity = (productId: string, quantity: number) => {
-    if (quantity < 1) {
-      removeFromCart(productId)
-      return
-    }
-    setLines((prev) =>
-      prev.map((line) =>
-        line.product.id === productId ? { ...line, quantity } : line,
-      ),
-    )
-  }
-
   const changeQuantity = (productId: string, delta: number) => {
-    setLines((prev) => {
-      const next = prev
+    setLines((prev) =>
+      prev
         .map((line) =>
           line.product.id === productId
             ? { ...line, quantity: line.quantity + delta }
             : line,
         )
-        .filter((line) => line.quantity > 0)
-      return next
-    })
+        .filter((line) => line.quantity > 0),
+    )
   }
 
   const count = useMemo(
@@ -89,7 +75,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
         closeCart: () => setIsOpen(false),
         addToCart,
         removeFromCart,
-        setQuantity,
         changeQuantity,
       }}
     >
