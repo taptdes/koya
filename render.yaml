@@ -1,0 +1,69 @@
+services:
+  - type: web
+    name: koya-api-development
+    runtime: node
+    branch: dev
+    buildCommand: corepack enable && pnpm install --frozen-lockfile
+    startCommand: pnpm --filter @koya/api start
+    healthCheckPath: /api/health
+    envVars:
+      - key: APP_ENV
+        value: development
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: CAPTCHA_SECRET_KEY
+        sync: false
+
+  - type: web
+    name: koya-api-staging
+    runtime: node
+    branch: staging
+    buildCommand: corepack enable && pnpm install --frozen-lockfile
+    startCommand: pnpm --filter @koya/api start
+    healthCheckPath: /api/health
+    envVars:
+      - key: APP_ENV
+        value: staging
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: CAPTCHA_SECRET_KEY
+        sync: false
+
+  - type: web
+    name: koya-api-production
+    runtime: node
+    branch: main
+    buildCommand: corepack enable && pnpm install --frozen-lockfile
+    startCommand: pnpm --filter @koya/api start
+    healthCheckPath: /api/health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: CAPTCHA_SECRET_KEY
+        sync: false

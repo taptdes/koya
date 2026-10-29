@@ -10,6 +10,7 @@ import SearchPage from './pages/SearchPage'
 import ShopAllPage from './pages/ShopAllPage'
 import YouthStandsPage from './pages/YouthStandsPage'
 import ProductPage from './pages/ProductPage'
+import AdminPage from './pages/AdminPage'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/shop" element={<ShopAllPage />} />
           <Route path="/youth-stands" element={<YouthStandsPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </main>
       <Footer />

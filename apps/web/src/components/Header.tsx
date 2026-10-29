@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Search, ShoppingBag, CircleUser, X } from 'lucide-react'
 import Logo from './Logo'
 import { useCart } from '../context/CartContext'
+import { api } from '../lib/api'
 
 const NAV_LINKS = [
   { label: 'Featured', to: '/' },
@@ -20,12 +21,24 @@ export default function Header() {
   const [scrolledPastHero, setScrolledPastHero] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
+  const [isOrgAdmin, setIsOrgAdmin] = useState(false)
+  const [pendingApplications, setPendingApplications] = useState(0)
 
   useEffect(() => {
     const onScroll = () => setScrolledPastHero(window.scrollY > 32)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    api<{ role: string }>('/api/profile').then((data) => {
+      if (data.role !== 'org-admin') return
+      setIsOrgAdmin(true)
+      return api<{ applications: { status: string }[] }>('/api/admin/applications')
+    }).then((data) => {
+      if (data) setPendingApplications(data.applications.filter((application) => application.status === 'pending-review').length)
+    }).catch(() => undefined)
   }, [])
 
   useEffect(() => {
@@ -51,37 +64,38 @@ export default function Header() {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
         <Link to="/" className="flex items-center">
-          <Logo className={`h-8 w-auto transition-colors duration-300 ${solid ? 'text-logo-gold' : 'text-white'}`} />
+          <Logo className={`h-8 w-auto transition-colors duration-300 ${solid ? 'text-logo-gold' : 'text-ink-900'}`} />
         </Link>
 
         <nav
           className={`hidden items-center gap-8 text-sm font-medium transition-colors duration-300 md:flex ${
-            solid ? 'text-ink-600' : 'text-white/90'
+            solid ? 'text-ink-600' : 'text-ink-900/80'
           }`}
         >
           {NAV_LINKS.map((link) => (
             <Link
               key={link.label}
               to={link.to}
-              className={`transition-colors ${solid ? 'hover:text-ink-900' : 'hover:text-white'}`}
+              className={`transition-colors ${solid ? 'hover:text-ink-900' : 'hover:text-ink-900'}`}
             >
               {link.label}
             </Link>
           ))}
+          {isOrgAdmin && <Link to="/admin" className="relative font-semibold text-ink-900 hover:text-ink-900">Admin{pendingApplications > 0 && <span className="ml-1.5 rounded-full bg-yellow-400 px-1.5 py-0.5 text-[10px] text-ink-900">{pendingApplications}</span>}</Link>}
         </nav>
 
         <div className="flex items-center gap-4">
           <Link
             to="/join"
             className={`hidden text-sm font-semibold underline-offset-4 transition-colors duration-300 hover:underline sm:inline ${
-              solid ? 'text-ink-900' : 'text-white'
+              solid ? 'text-ink-900' : 'text-ink-900'
             }`}
           >
             Become a seller
           </Link>
           <div
             className={`flex items-center gap-1 transition-colors duration-300 ${
-              solid ? 'text-ink-600' : 'text-white'
+              solid ? 'text-ink-600' : 'text-ink-900/80'
             }`}
           >
             <button

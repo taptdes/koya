@@ -7,6 +7,9 @@
   "packageManager": "pnpm@8.9.1",
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
+    "dev:api": "pnpm --filter @koya/api dev",
+    "dev:web": "pnpm --filter web dev",
+    "build:web": "pnpm --filter web build",
     "deploy:cms": "git subtree push --prefix=apps/cms cms main",
     "prepare": "is-ci || husky",
     "build": "pnpm turbo run build",

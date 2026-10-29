@@ -4,6 +4,7 @@ import PageBanner from '../components/PageBanner'
 import ProductImage from '../components/ProductImage'
 import Button from '../components/Button'
 import { Field, TextInput, TextArea, SelectInput } from '../components/form'
+import { api } from '../lib/api'
 
 const CATALOG_ITEMS = [
   { name: 'Custom Tote Bags', icon: '👜', palette: 'pink' as const, from: 4.5, minOrder: 25 },
@@ -16,10 +17,22 @@ const CATALOG_ITEMS = [
 
 export default function BrandingPage() {
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState('')
+  const [saving, setSaving] = useState(false)
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setSubmitted(true)
+    setError('')
+    setSaving(true)
+    try {
+      const form = new FormData(event.currentTarget)
+      await api('/api/quote-requests', { method: 'POST', body: JSON.stringify(Object.fromEntries(form.entries())) })
+      setSubmitted(true)
+    } catch (submissionError) {
+      setError(submissionError instanceof Error ? submissionError.message : 'Please try again.')
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -121,8 +134,9 @@ export default function BrandingPage() {
                 </Field>
               </div>
               <div className="sm:col-span-2">
-                <Button type="submit" variant="primary" className="w-full justify-center">
-                  Submit request
+                {error && <p className="mb-3 text-sm text-red-700">{error}</p>}
+                <Button type="submit" variant="primary" className="w-full justify-center" disabled={saving}>
+                  {saving ? 'Sending…' : 'Submit request'}
                 </Button>
               </div>
             </form>

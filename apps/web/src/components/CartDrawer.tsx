@@ -1,10 +1,26 @@
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react'
+import { useState } from 'react'
 import { useCart } from '../context/CartContext'
 import Button from './Button'
 import ProductImage from './ProductImage'
+import { api } from '../lib/api'
 
 export default function CartDrawer() {
   const { lines, isOpen, closeCart, subtotal, changeQuantity, removeFromCart } = useCart()
+  const [checkoutState, setCheckoutState] = useState<'idle' | 'saving' | 'done'>('idle')
+
+  const checkout = async () => {
+    setCheckoutState('saving')
+    try {
+      await api('/api/orders', {
+        method: 'POST',
+        body: JSON.stringify({ items: lines.map(({ product, quantity }) => ({ productId: product.id, quantity })) }),
+      })
+      setCheckoutState('done')
+    } catch {
+      setCheckoutState('idle')
+    }
+  }
 
   return (
     <>
@@ -111,8 +127,8 @@ export default function CartDrawer() {
                   ${subtotal.toFixed(2)}
                 </span>
               </div>
-              <Button variant="primary" className="w-full justify-center">
-                Checkout
+              <Button variant="primary" className="w-full justify-center" onClick={checkout} disabled={checkoutState === 'saving' || checkoutState === 'done'}>
+                {checkoutState === 'done' ? 'Order received!' : checkoutState === 'saving' ? 'Placing order…' : 'Checkout'}
               </Button>
               <button
                 type="button"
