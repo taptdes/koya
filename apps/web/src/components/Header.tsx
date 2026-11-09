@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Search, ShoppingBag, CircleUser, X } from 'lucide-react'
 import Logo from './Logo'
+import LogoMark from './LogoMark'
 import { useCart } from '../context/CartContext'
 import { api } from '../lib/api'
 
@@ -64,7 +65,8 @@ export default function Header() {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
         <Link to="/" className="flex items-center">
-          <Logo className={`h-8 w-auto transition-colors duration-300 ${solid ? 'text-logo-gold' : 'text-ink-900'}`} />
+          <Logo className={`hidden h-8 w-auto transition-colors duration-300 min-[1001px]:block ${solid ? 'text-logo-gold' : 'text-ink-900'}`} />
+          <LogoMark className={`block h-8 w-auto transition-colors duration-300 min-[1001px]:hidden ${solid ? 'text-logo-gold' : 'text-ink-900'}`} />
         </Link>
 
         <nav
