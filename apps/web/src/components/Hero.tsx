@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden bg-gradient-to-b from-pink-100 to-pink-50"
+      className="relative overflow-hidden bg-orange-100"
     >
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 pb-20 pt-32 md:grid-cols-2 md:pb-28 md:pt-40">
         <div>

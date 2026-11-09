@@ -51,19 +51,19 @@ export default function Header() {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
         <Link to="/" className="flex items-center">
-          <Logo className={`h-8 w-auto transition-colors duration-300 ${solid ? 'text-logo-gold' : 'text-white'}`} />
+          <Logo className={`h-8 w-auto transition-colors duration-300 ${solid ? 'text-logo-gold' : 'text-ink-600'}`} />
         </Link>
 
         <nav
           className={`hidden items-center gap-8 text-sm font-medium transition-colors duration-300 md:flex ${
-            solid ? 'text-ink-600' : 'text-white/90'
+            solid ? 'text-ink-600' : 'text-black/90'
           }`}
         >
           {NAV_LINKS.map((link) => (
             <Link
               key={link.label}
               to={link.to}
-              className={`transition-colors ${solid ? 'hover:text-ink-900' : 'hover:text-white'}`}
+              className={`transition-colors ${solid ? 'hover:text-ink-900' : 'hover:text-ink-700'}`}
             >
               {link.label}
             </Link>
@@ -74,14 +74,14 @@ export default function Header() {
           <Link
             to="/join"
             className={`hidden text-sm font-semibold underline-offset-4 transition-colors duration-300 hover:underline sm:inline ${
-              solid ? 'text-ink-900' : 'text-white'
+              solid ? 'text-ink-900' : 'text-ink-700'
             }`}
           >
             Become a seller
           </Link>
           <div
             className={`flex items-center gap-1 transition-colors duration-300 ${
-              solid ? 'text-ink-600' : 'text-white'
+              solid ? 'text-ink-600' : 'text-ink-700'
             }`}
           >
             <button
@@ -104,7 +104,7 @@ export default function Header() {
             >
               <ShoppingBag className="h-4.5 w-4.5" strokeWidth={1.75} />
               {count > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-pink-300 text-[10px] font-bold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[10px] font-bold text-white">
                   {count}
                 </span>
               )}

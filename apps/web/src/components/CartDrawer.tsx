@@ -22,6 +22,8 @@ export default function CartDrawer() {
         }`}
         role="dialog"
         aria-label="Shopping cart"
+        aria-hidden={!isOpen}
+        inert={!isOpen ? true : undefined}
       >
         <div className="flex items-center justify-between border-b border-ink-900/10 px-6 py-5">
           <h2 className="font-display text-lg font-semibold text-ink-900">Your cart</h2>
