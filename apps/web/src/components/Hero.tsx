@@ -1,5 +1,4 @@
 import Button from './Button'
-import LemonadeStandIllustration from './LemonadeStandIllustration'
 
 export default function Hero() {
   return (
